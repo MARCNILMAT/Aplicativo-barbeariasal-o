@@ -20,11 +20,6 @@ export default {
           900: '#4c1d95',
           950: '#2e1065',
         },
-        dark: {
-          bg: '#121212',
-          surface: '#1e1e1e',
-          border: '#333333'
-        }
       },
     },
   },
