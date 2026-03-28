@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  nome      String
+  email     String   @unique
+  senha     String
+  tipo      String   @default("FUNCIONARIO") // "ADMIN" ou "FUNCIONARIO"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cliente {
+  id           String         @id @default(uuid())
+  nome         String
+  telefone     String
+  observacoes  String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  agendamentos Agendamento[]
+}
+
+model Profissional {
+  id            String         @id @default(uuid())
+  nome          String
+  especialidade String
+  comissao      Float
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  agendamentos  Agendamento[]
+}
+
+model Servico {
+  id           String         @id @default(uuid())
+  nome         String
+  preco        Float
+  duracao      Int            // in minutes
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  agendamentos Agendamento[]
+}
+
+model Agendamento {
+  id             String       @id @default(uuid())
+  clienteId      String
+  profissionalId String
+  servicoId      String
+  data_hora      DateTime
+  status         String       @default("AGENDADO") // "AGENDADO", "CONCLUIDO", "CANCELADO"
+  
+  cliente        Cliente      @relation(fields: [clienteId], references: [id])
+  profissional   Profissional @relation(fields: [profissionalId], references: [id])
+  servico        Servico      @relation(fields: [servicoId], references: [id])
+  
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Financeiro {
+  id        String        @id @default(uuid())
+  tipo      String        // "ENTRADA" ou "SAIDA"
+  descricao String
+  valor     Float
+  data      DateTime      @default(now())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
