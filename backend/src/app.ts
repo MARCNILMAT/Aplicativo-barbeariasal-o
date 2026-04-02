@@ -14,6 +14,9 @@ import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
 
+console.log('[STARTUP] DATABASE_URL check:', process.env.DATABASE_URL ? 'PRESENT' : 'MISSING');
+console.log('[STARTUP] JWT_SECRET check:', process.env.JWT_SECRET ? 'PRESENT' : 'MISSING');
+
 app.use(cors());
 app.use(express.json());
 
