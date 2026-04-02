@@ -63,9 +63,10 @@ const Profissionais = () => {
       
       setIsModalOpen(false);
       fetchProfissionais();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Erro ao salvar profissional');
+      const msg = error.response?.data?.error || error.response?.data?.message || 'Erro ao salvar profissional';
+      alert(msg);
     } finally {
       setBtnLoading(false);
     }
@@ -76,9 +77,10 @@ const Profissionais = () => {
     try {
       await api.delete(`/profissionais/${id}`);
       fetchProfissionais();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Erro ao excluir profissional');
+      const msg = error.response?.data?.error || error.response?.data?.message || 'Erro ao excluir profissional';
+      alert(msg);
     }
   };
 

@@ -62,9 +62,10 @@ const Servicos = () => {
       }
       setIsModalOpen(false);
       fetchServicos();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Erro ao salvar serviço');
+      const msg = error.response?.data?.error || error.response?.data?.message || 'Erro ao salvar serviço';
+      alert(msg);
     } finally {
       setBtnLoading(false);
     }
@@ -75,9 +76,10 @@ const Servicos = () => {
     try {
       await api.delete(`/servicos/${id}`);
       fetchServicos();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Erro ao excluir serviço');
+      const msg = error.response?.data?.error || error.response?.data?.message || 'Erro ao excluir serviço';
+      alert(msg);
     }
   };
 

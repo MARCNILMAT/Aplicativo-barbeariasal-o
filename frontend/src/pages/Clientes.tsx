@@ -58,9 +58,10 @@ const Clientes = () => {
       }
       setIsModalOpen(false);
       fetchClientes();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Erro ao salvar cliente');
+      const msg = error.response?.data?.error || error.response?.data?.message || 'Erro ao salvar cliente';
+      alert(msg);
     } finally {
       setBtnLoading(false);
     }
@@ -71,9 +72,10 @@ const Clientes = () => {
     try {
       await api.delete(`/clientes/${id}`);
       fetchClientes();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Erro ao excluir cliente');
+      const msg = error.response?.data?.error || error.response?.data?.message || 'Erro ao excluir cliente';
+      alert(msg);
     }
   };
 
