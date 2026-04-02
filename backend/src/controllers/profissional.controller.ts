@@ -15,10 +15,16 @@ export const getAllProfissionais = async (req: Request, res: Response, next: Nex
 
 export const createProfissional = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log('[DEBUG] createProfissional body:', JSON.stringify(req.body));
     const data = createProfissionalSchema.parse(req.body);
     const profissional = await prisma.profissional.create({ data });
+    console.log('[DEBUG] createProfissional success:', profissional.id);
     res.status(201).json(profissional);
-  } catch (error) {
+  } catch (error: any) {
+    console.error('[CRITICAL] createProfissional fail:', error);
+    if (error.name === 'ZodError') {
+       return res.status(400).json({ error: 'Erro de validação', issues: error.errors });
+    }
     next(error);
   }
 };

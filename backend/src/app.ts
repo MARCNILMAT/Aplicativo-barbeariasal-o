@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { prisma } from './utils/prisma';
 
 import authRoutes from './routes/auth.routes';
 import clienteRoutes from './routes/cliente.routes';
@@ -28,6 +29,15 @@ app.use('/relatorios', relatorioRoutes);
 
 app.get('/', (req, res) => {
   res.send('Barber Shop & Salon API');
+});
+
+app.get('/health', async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ status: 'ok', database: 'connected' });
+  } catch (error: any) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
 });
 
 // Global Error Handler
